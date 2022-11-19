@@ -32,14 +32,11 @@ void* countC(){
     clock_gettime(CLOCK_REALTIME, &t6);
 }
 void *ThrA(){
-    struct timespec t1, t2;
     struct sched_param parameter_other;
     pthread_t id = pthread_self();
     setpriority(PRIO_PROCESS, 0, 19);
     parameter_other.sched_priority=0; 
-    if(pthread_setschedparam(id ,SCHED_OTHER, &parameter_other)!=0){
-        printf("Error A\n");
-    }
+    pthread_setschedparam(id ,SCHED_OTHER, &parameter_other);
     countA();
 }
 
@@ -51,10 +48,10 @@ int main(){
     pthread_create(&Thr_A,NULL,ThrA,NULL);
     pthread_create(&Thr_B,NULL,countB,NULL);
     pthread_create(&Thr_C,NULL,countC,NULL);
-    parameter_rr.sched_priority=1;
-    parameter_fifo.sched_priority=2;
+    parameter_rr.sched_priority=5;
+    parameter_fifo.sched_priority=1;
     pthread_setschedparam(Thr_B ,SCHED_RR, &parameter_rr);
-    pthread_setschedparam(Thr_C ,SCHED_FIFO, &parameter_fifo)
+    pthread_setschedparam(Thr_C ,SCHED_FIFO, &parameter_fifo);
     pthread_join(Thr_A,NULL);
     pthread_join(Thr_B,NULL);
     pthread_join(Thr_C,NULL);
