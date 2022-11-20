@@ -10,13 +10,13 @@
 struct timespec t1, t2, t3, t4, t5, t6;
 int priority_rr[] = {1, 2, 3, 4, 5};
 int priority_fifo[] = {9, 10, 11, 12, 13};
-int other[] = {-20, 10, 0, 10, 19};
+int Other[] = {-20, 10, 0, 10, 19};
 int count = 0;
 FILE *other, *rr, *fifo;
 struct sched_param parameter_fifo, parameter_rr, parameter_other;
 void* countA(){
     pthread_t pid = pthread_self();
-    setpriority(PRIO_PROCESS, 0, other[count]);
+    setpriority(PRIO_PROCESS, 0, Other[count]);
     pthread_setschedparam(pid ,SCHED_OTHER, &parameter_other);
     clock_gettime(CLOCK_REALTIME, &t1);
     for(long long int i = 1; i<=4294967296; i++){
@@ -63,13 +63,16 @@ int main(){
    	    pthread_t Thr_A, Thr_B, Thr_C;
         parameter_rr.sched_priority = priority_rr[count];
         parameter_fifo.sched_priority = priority_fifo[count];
-        pthread_create(&Thr_A,NULL,CountA,NULL);
+        pthread_create(&Thr_A,NULL,countA,NULL);
         pthread_create(&Thr_B,NULL,countB,NULL);
-        pthread_create(&Thr_C,NULL,CountC,NULL);
+        pthread_create(&Thr_C,NULL,countC,NULL);
         pthread_join(Thr_A,NULL);
         pthread_join(Thr_B,NULL);
         pthread_join(Thr_C,NULL);   
         count++;
     } 
+    fclose(other);
+    fclose(rr);
+    fclose(fifo);
     return 0;
 }
