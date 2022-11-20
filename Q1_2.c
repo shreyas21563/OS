@@ -17,13 +17,13 @@ int main(){
             if(pid3==0){
                 execl("/bin/sh", "sh", "bash.sh", NULL);
             }else{
-                wait(pid3, NULL, NULL);
+                waitpid(pid3, NULL, NULL);
                 clock_gettime(CLOCK_REALTIME, &t6);
                 
             }
             execl("/bin/sh", "sh", "bash.sh", NULL);
         }else{
-            waitpid(pid2);
+            waitpid(pid2, NULL, NULL);
             clock_gettime(CLOCK_REALTIME, &t4);
         }
         execl("/bin/sh", "sh", "bash.sh", NULL);
