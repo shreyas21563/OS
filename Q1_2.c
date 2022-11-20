@@ -17,18 +17,18 @@ int main(){
             if(pid3==0){
                 execl("/bin/sh", "sh", "bash.sh", NULL);
             }else{
-                waitpid(pid3, NULL, NULL);
+                waitpid(pid3, NULL, 0);
                 clock_gettime(CLOCK_REALTIME, &t6);
                 
             }
             execl("/bin/sh", "sh", "bash.sh", NULL);
         }else{
-            waitpid(pid2, NULL, NULL);
+            waitpid(pid2, NULL, 0);
             clock_gettime(CLOCK_REALTIME, &t4);
         }
         execl("/bin/sh", "sh", "bash.sh", NULL);
     }else{
-        waitpid(pid1, NULL, NULL);
+        waitpid(pid1, NULL, 0);
         clock_gettime(CLOCK_REALTIME, &t2);
         printf("TIME3: %f\n", ((t6.tv_sec-t5.tv_sec)+((double)(t6.tv_nsec-t5.tv_nsec))/(double)1000000000L));
         printf("TIME2: %f\n", ((t4.tv_sec-t3.tv_sec)+((double)(t4.tv_nsec-t3.tv_nsec))/(double)1000000000L));
